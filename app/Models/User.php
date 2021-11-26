@@ -67,6 +67,11 @@ class User extends Authenticatable
         'isSuperAdmin',
     ];
 
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'user_id');
+    }
+
     public function hasRole($role)
     {
         return $this->role === $role;
@@ -136,12 +141,25 @@ class User extends Authenticatable
                 ->orWhere('users.email', 'LIKE', '%'.$term.'%');
         }
     }
+
+    public function scopeWhereSearchStudent($query, $search)
+    {
+        $query->whereHas('student', function ($query) use ($search) {
+            $query->where('nisn', 'LIKE', '%'.$search.'%')
+                    ->orWhere('nis', 'LIKE', '%'.$search.'%');
+        })->orWhere('users.name', 'LIKE', '%'.$search.'%')
+                ->orWhere('users.email', 'LIKE', '%'.$search.'%');
+    }
     
     public function scopeApplyFilters($query, array $filters)
     {
         $filters = collect($filters);
         if ($filters->get('search')) {
             $query->whereSearch($filters->get('search'));
+        }
+        
+        if ($filters->get('student')) {
+            $query->whereSearchStudent($filters->get('student'));
         }
     }
 
@@ -155,17 +173,20 @@ class User extends Authenticatable
     }
 
     public static function createUser($request) {        
-        $data = $request;
-
+        $data = $request->validated();
+        
         $data['password'] = Hash::make($data['password']);
 
         $user = self::create($data);
 
+        if($request->has('nisn') && $request->has('nis')) {
+            $user->student()->create($data);
+        }
         return $user;
     }
 
     public function updateUser($request) {
-        $data = $request;
+        $data = $request->validated();
         
         if($data['password']) {
             $data['password'] = Hash::make($data['password']);
@@ -174,6 +195,10 @@ class User extends Authenticatable
         }
 
         $user = $this->update($data);
+        if($request->has('nisn') && $request->has('nis')) {
+            $this->student()->delete();
+            $this->student()->create($data);
+        }
 
         return $user;
     }

@@ -4,11 +4,12 @@
     @change="$emit('update:modelValue', $event.target.value)"
     ref="select"
   >
+    <option>{{selectLabel.value}}</option>
     <option
       v-for="(data, key) in options"
       :key="key"
-      :value="data.value"
-      :selected="data.value === modelValue"
+      :value="data.id"
+      :selected="data.id === modelValue"
     >
       {{ data.name }}
     </option>
@@ -17,7 +18,7 @@
 
 <script>
 export default {
-  props: ["modelValue", "options"],
+  props: ["modelValue", "options", "selectLabel"],
 
   emits: ["update:modelValue"],
 

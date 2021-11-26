@@ -37,6 +37,7 @@
         "@fortawesome/free-solid-svg-icons": "^5.15.4",
         "@fortawesome/vue-fontawesome": "^3.0.0-5",
         "notiwind": "^1.2.3",
+        "vue-multiselect": "^2.1.6",
         "vue-sweetalert2": "^5.0.2"
     }
 }

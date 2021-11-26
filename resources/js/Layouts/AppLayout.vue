@@ -31,15 +31,25 @@
                     <jet-nav-link-left :href="route('dashboard')" :icons="'fas fa-tachometer-alt'" :active="route().current('dashboard')">
                         Dashboard
                     </jet-nav-link-left>
-
-                    <jet-nav-link-left :href="route('departments.index')" :icons="'fas fa-building'" :active="route().current('departments.index')">
-                        Departments
-                    </jet-nav-link-left>
                 </nav>
 
                 <nav class="my-4" v-if="$page.props.user.isAdmin">
+                    <jet-nav-link-left :href="route('spps.index')" :icons="'fas fa-cash-register'" :active="route().current('spps.index')">
+                        Bayar SPP
+                    </jet-nav-link-left>
+
+                    <jet-nav-link-left  :href="route('registrations.index')" :icons="'fas fa-handshake'" :active="route().current('registrations.index')">
+                        Bayar Daftar Ulang
+                    </jet-nav-link-left>
+                </nav>
+                
+                <nav class="my-4" v-if="$page.props.user.isAdmin">
+                    <jet-nav-link-left :href="route('rooms.index')" :icons="'fas fa-door-open'" :active="route().current('rooms.index')">
+                        Angkatan - SPP
+                    </jet-nav-link-left>
+
                     <jet-nav-link-left :href="route('users.index')" :icons="'fas fa-users'" :active="route().current('users.index')">
-                        Member
+                        Siswa
                     </jet-nav-link-left>
 
                     <jet-nav-link-left :href="route('admins.index')" :icons="'fas fa-user-shield'" :active="route().current('admins.index')" v-if="$page.props.user.isSuperAdmin">
