@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Jetstream\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Room;
 use App\Http\Requests\UserRequest;
 use Inertia\Inertia;
 
@@ -36,7 +37,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('User/Create');
+        $rooms = Room::paginateData('all');
+
+        return Inertia::render('User/Create', [
+            'rooms' => $rooms
+        ]);
     }
 
     /**
@@ -47,9 +52,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        User::createUser($request->validated());
+        User::createUser($request);
 
-        return redirect()->route('users.index')->with('success', 'Success');
+        return redirect()->route('users.index')->with('success', 'Berhasil');
     }
 
     /**
@@ -71,9 +76,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if($user->role == 'user') { 
+        if($user->role == 'user') {
+            $user->load(['student']); 
+            $rooms = Room::paginateData('all');
             return Inertia::render('User/Edit', [
-                'user' => $user
+                'student' => $user,
+                'rooms' => $rooms,
             ]);
         } else {
             abort(404);
@@ -90,8 +98,8 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         if($user->role == 'user') { 
-            $user->updateUser($request->validated());
-            return redirect()->route('users.index')->with('success', 'Success');
+            $user->updateUser($request);
+            return redirect()->route('users.index')->with('success', 'Berhasil');
         } else {
             abort(404);
         }

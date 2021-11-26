@@ -84,7 +84,8 @@
 
         methods: {
             submit() {
-                this.form
+                axios.get('/sanctum/csrf-cookie').then(response => {
+                       this.form
                     .transform(data => ({
                         ... data,
                         remember: this.form.remember ? 'on' : ''
@@ -92,6 +93,7 @@
                     .post(this.route('login'), {
                         onFinish: () => this.form.reset('password'),
                     })
+                }); 
             }
         }
     })

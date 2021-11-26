@@ -38,12 +38,44 @@ class UserRequest extends FormRequest
                 'required',
                 'min:6',
             ],
+            'nisn' => [
+                'required',
+                'max:50',
+                'unique:students',
+            ],
+            'nis' => [
+                'required',
+                'max:50',
+                'unique:students',
+            ],
+            'room_id' => [
+                'required',
+                'exists:rooms,id',
+            ],
+            'address' => [
+                'nullable',
+                'max:255',
+            ],
+            'phone' => [
+                'nullable',
+                'max:20',
+            ],
         ];
 
         if ($this->getMethod() == 'PUT') {
             $rules['email'] = [
                 'required',
                 Rule::unique('users')->ignore($this->user),
+            ];
+
+            $rules['nisn'] = [
+                'required',
+                Rule::unique('students')->ignore($this->user->student),
+            ];
+
+            $rules['nis'] = [
+                'required',
+                Rule::unique('students')->ignore($this->user->student),
             ];
 
             $rules['password'] = [
@@ -62,9 +94,13 @@ class UserRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'name' => 'Name',
+            'name' => 'Nama Siswa',
             'email' => 'Email',
             'password' => 'Password',
+            'nisn' => 'NISN',
+            'nis' => 'NIS',
+            'address' => 'Alamat',
+            'phone' => 'No Telfon',
         ];
 
         return $attributes;

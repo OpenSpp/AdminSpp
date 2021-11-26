@@ -8,7 +8,7 @@
 
         <div class="max-w-full mx-auto py-7">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <welcome />
+                <welcome :payment="payment" :yearFilter="yearFilter"/>
             </div>
         </div>
     </app-layout>
@@ -24,5 +24,12 @@
             AppLayout,
             Welcome,
         },
+
+        props: ['payment', 'yearFilter'],
+
+        beforeMount() {
+            console.log("=========================================");
+            console.log(this.payment);
+        }
     })
 </script>

@@ -1,17 +1,17 @@
 <template>
-    <app-layout title="Member">
+    <app-layout title="Siswa">
         <template #header>
             <div class="grid grid-cols-2 gap-4">
             <div>
                 <nav aria-label="breadcrumb">
                     <ol class="flex leading-none text-indigo-600 divide-x divide-indigo-400">
                         <li class="pr-4"><Link :href="route('dashboard')" >Dashboard</Link></li>
-                        <li class="px-4 text-gray-700" aria-current="page">Member</li>
+                        <li class="px-4 text-gray-700" aria-current="page">Siswa</li>
                     </ol>
                 </nav>
             </div>
             <div class="text-right">
-              <Link :href="route('users.create')"><jet-button class="bg-blue-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded">Create member</jet-button></Link>
+              <Link :href="route('users.create')"><jet-button class="bg-blue-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded">Tambah Siswa</jet-button></Link>
             </div>
         </div>
         </template>
@@ -42,7 +42,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" width="50" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Siswa</th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated At</th>

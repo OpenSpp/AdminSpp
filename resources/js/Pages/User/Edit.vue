@@ -1,5 +1,5 @@
 <template>
-    <app-layout title="Edit User">
+    <app-layout title="Edit Siswa">
 
     <template #header>
         <div class="grid grid-cols-2 gap-4">
@@ -7,8 +7,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="flex leading-none text-indigo-600 divide-x divide-indigo-400">
                         <li class="pr-4"><Link :href="route('dashboard')" >Dashboard</Link></li>
-                        <li class="px-4"><Link :href="route('users.index')" >Member</Link></li>
-                        <li class="px-4 text-gray-700" aria-current="page">Edit Member</li>
+                        <li class="px-4"><Link :href="route('users.index')" >Siswa</Link></li>
+                        <li class="px-4 text-gray-700" aria-current="page">Edit Siswa</li>
                     </ol>
                 </nav>
             </div>
@@ -25,8 +25,45 @@
                             <jet-label for="name" value="Name" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="name" />
                             <jet-input-error :message="form.errors.name" class="mt-2" />
-                            <div v-if="errors.name">{{ errors.name }}</div>
-                            <div v-if="success_message">{{ success_message }}</div>
+                        </div>
+
+                        <div class="col-span-12 sm:col-span-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <jet-label for="nisn" value="NISN" />
+                                    <jet-input id="nisn" type="text" class="mt-1 block w-full" v-model="form.nisn" autocomplete="nisn" />
+                                    <jet-input-error :message="form.errors.nisn" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <jet-label for="nis" value="NIS" />
+                                    <jet-input id="nis" type="text" class="mt-1 block w-full" v-model="form.nis" autocomplete="nis" />
+                                    <jet-input-error :message="form.errors.nis" class="mt-2" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-span-12 sm:col-span-6">
+                            <jet-label for="address" value="Alamat" />
+                            <jet-text-area id="address" class="mt-1 block w-full" v-model="form.address" />
+                            <jet-input-error :message="form.errors.address" class="mt-2" />
+                        </div>
+                        
+                        <div class="col-span-12 sm:col-span-6">
+                            <jet-label for="phone" value="No Telfon" />
+                            <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" />
+                            <jet-input-error :message="form.errors.phone" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-12 sm:col-span-6">
+                            <jet-label for="room_id" value="Angkatan" />
+                            <com-select class="mt-1 block w-full"
+                                id="room_id"
+                                v-model="form.room_id"
+                                :selectLabel="{value: '==Pilih Angkatan=='}"
+                                :options="rooms.data"
+                            />
+                            <jet-input-error :message="form.errors.room_id" class="mt-2" />
                         </div>
                         
                         <div class="col-span-12 sm:col-span-6">
@@ -63,22 +100,29 @@
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetInputError from '@/Jetstream/InputError.vue'
     import JetSelect from '@/Jetstream/Select.vue'
+    import JetTextArea from '@/Jetstream/TextArea.vue'
+    import ComSelect from '@/Components/Select.vue'
     // import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
 
     export default defineComponent({
         components: {
-            AppLayout, JetForm, JetInput, JetLabel, Link, JetButton, JetInputError, JetSelect, JetDangerButton
+            AppLayout, JetForm, JetInput, JetLabel, Link, JetButton, JetInputError, JetSelect, JetDangerButton, JetTextArea,
+            ComSelect
         },
-        props: ['user', 'success_message', 'errors'],
+        props: ['student', 'success_message', 'errors', 'rooms'],
 
         data() {
             return {
-                itemId :  this.user.id,
-                is_active: [{name: 'Active', value: 1}, {name: 'InActive', value: 0}],
+                itemId :  this.student.id,
                 form: this.$inertia.form({
                     _method: "PUT",
-                    name: this.user.name,
-                    email: this.user.email,
+                    name: this.student.name,
+                    email: this.student.email,
+                    nisn: this.student.student?.nisn,
+                    room_id: this.student.student?.room_id,
+                    nis: this.student.student?.nis,
+                    address: this.student.student?.address,
+                    phone: this.student.student?.phone,
                     password: null,
                 })
             }

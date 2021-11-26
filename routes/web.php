@@ -4,9 +4,15 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\Jetstream\DashboardController;
 use App\Http\Controllers\Jetstream\Department\DepartmentController;
 use App\Http\Controllers\Jetstream\User\UserController;
 use App\Http\Controllers\Jetstream\User\AdminController;
+use App\Http\Controllers\Jetstream\User\UserJsonController;
+use App\Http\Controllers\Jetstream\Room\RoomController;
+use App\Http\Controllers\Jetstream\Room\RoomJsonController;
+use App\Http\Controllers\Jetstream\Payment\PaymentSppController;
+use App\Http\Controllers\Jetstream\Payment\PaymentRegistrasionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,12 +42,26 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::middleware(['auth:sanctum', 'is-admin', 'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    //Route::get('/dashboard', function () {
+    //    return Inertia::render('Dashboard');
+    //})->name('dashboard');
+
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('departments', DepartmentController::class);
     Route::resource('users', UserController::class);
+    Route::get('json/users/index', UserJsonController::class)->name('json.users.index');
+
+    Route::resource('rooms', RoomController::class);
+    Route::get('json/rooms/index', RoomJsonController::class)->name('json.rooms.index');
+
+    Route::prefix('payment')->group(function () {
+        Route::resource('spps', PaymentSppController::class);
+        Route::resource('registrations', PaymentRegistrasionController::class);
+         
+    });
+
+
 });
 
 Route::middleware(['auth:sanctum', 'is-super-admin', 'verified'])->group(function () {

@@ -48,7 +48,7 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
-        User::createUser($request->validated());
+        User::createUser($request);
 
         return redirect()->route('admins.index')->with('success', 'Success');
     }
@@ -91,7 +91,7 @@ class AdminController extends Controller
     public function update(AdminRequest $request, User $admin)
     {
         if($admin->isAdmin) { 
-            $admin->updateUser($request->validated());
+            $admin->updateUser($request);
             return redirect()->route('admins.index')->with('success', 'Success');
         } else {
             abort(404);
